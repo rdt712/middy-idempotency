@@ -1,0 +1,51 @@
+{
+  "name": "middy-idempotency",
+  "version": "0.0.1",
+  "description": "Idempotency Middleware AWS Lambda Functions using Middy",
+  "main": "index.js",
+  "engines": {
+    "node": ">=12"
+  },
+  "engineStrict": true,
+  "scripts": {
+    "lint": "standard --fix",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdt712/middy-idempotency.git"
+  },
+  "keywords": [
+    "Lambda",
+    "Middleware",
+    "Serverless",
+    "Framework",
+    "AWS",
+    "AWS",
+    "Lambda",
+    "DynamoDB",
+    "Idempotency",
+    "Amazon",
+    "Middy"
+  ],
+  "author": {
+    "name": "Ryan Toler",
+    "email": "rdt712@gmail.com",
+    "url": "https://ryantoler.dev"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rdt712/middy-idempotency/issues"
+  },
+  "homepage": "https://github.com/rdt712/middy-idempotency#readme",
+  "dependencies": {
+    "@middy/util": "^2.5.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.972.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "husky": "^7.0.1",
+    "standard": "^16.0.3"
+  }
+}
