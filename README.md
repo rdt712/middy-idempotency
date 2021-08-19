@@ -6,7 +6,7 @@
 
   <blockquote>Make AWS Lambda Functions Idempotent using Middy</blockquote>
 
-[![Version](https://img.shields.io/npm/v/middy-idempotency?label=latest%20version)](https://www.npmjs.com/package/middy-idempotency)&nbsp; &nbsp;[![License](https://badgen.net/github/license/rdt712/middy-idempotency)](./LICENSE)&nbsp; &nbsp;![GitHub issues by-label](https://img.shields.io/github/issues/rdt712/middy-idempotency/bug)
+[![Version](https://img.shields.io/npm/v/middy-idempotency?label=latest%20version)](https://www.npmjs.com/package/middy-idempotency)&nbsp; &nbsp;[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)&nbsp; &nbsp;![GitHub issues by-label](https://img.shields.io/github/issues/rdt712/middy-idempotency/bug)
 
 </div>
 
