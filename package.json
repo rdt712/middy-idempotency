@@ -9,7 +9,8 @@
   "engineStrict": true,
   "scripts": {
     "lint": "standard --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo \"No test specified\""
   },
   "repository": {
     "type": "git",
