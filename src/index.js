@@ -7,7 +7,7 @@ const {
   IdempotencyItemNotFoundError,
   IdempotencyKeyError,
   IdempotencyPersistenceLayerError,
-  IdempotencyValidationError,
+  IdempotencyValidationError
 } = require('./common/errors')
 
 const DynamoDb = require('./persistence/dynamodb')
@@ -17,7 +17,7 @@ const defaults = {
   awsClientOptions: {},
   tableName: null,
   eventKeyPath: null,
-  expiresAfterSeconds: 3600, // 1 hour
+  expiresAfterSeconds: 3600 // 1 hour
 }
 
 const idempotency = (opts = {}) => {
@@ -72,7 +72,7 @@ const idempotency = (opts = {}) => {
     const record = {
       idempotencyKey: getHashedIdempotencyKey(event, context, options.eventKeyPath),
       status: INPROGRESS,
-      expiryTimestamp: getExpiryTimestamp(options.expiresAfterSeconds),
+      expiryTimestamp: getExpiryTimestamp(options.expiresAfterSeconds)
     }
     await client.putRecord(record)
   }
@@ -82,7 +82,7 @@ const idempotency = (opts = {}) => {
       idempotencyKey: getHashedIdempotencyKey(event, context, options.eventKeyPath),
       status: COMPLETED,
       expiryTimestamp: getExpiryTimestamp(options.expiresAfterSeconds),
-      data: JSON.stringify(response),
+      data: JSON.stringify(response)
     }
     await client.updateRecord(record)
   }
@@ -135,7 +135,7 @@ const idempotency = (opts = {}) => {
   return {
     before: idempotencyBefore,
     after: idempotencyAfter,
-    onError: idempotencyOnError,
+    onError: idempotencyOnError
   }
 }
 
