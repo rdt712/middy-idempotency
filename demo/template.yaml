@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  idempotency-poc
+
+  Sample SAM Template for idempotency-poc
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello-world/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          DYNAMO_IDEMPOTENCY_TABLE: idempotency

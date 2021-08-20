@@ -41,18 +41,26 @@ Requires @middy/core >= 2.0.0
 
 ```javascript
 const middy = require('@middy/core')
-const idempotency = require('middy-impotency')
+const idempotency = require('middy-idempotency')
 
 const processEvent = async (event, context) => {
   return {
-    status: 200,
-    response: 'Hello World!',
+    statusCode: 200,
+    body: JSON.stringify({
+      message: 'hello world',
+    }),
   }
 }
 
 const lambdaHandler = middy(processEvent).use(
   idempotency({
-    tableName: 'myIdempotencyTable',
+    tableName: process.env.DYNAMO_IDEMPOTENCY_TABLE,
+    awsClientOptions: {
+      endpoint: 'http://host.docker.internal:8000',
+      region: 'localhost',
+      accessKeyId: 'access_key_id',
+      secretAccessKey: 'secret_access_key',
+    },
   })
 )
 
