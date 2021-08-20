@@ -1,21 +1,23 @@
 const crypto = require('crypto')
+const jmespath = require('jmespath')
 
 // Extract data from lambda event using event key path, and return a hashed representation
-const getHashedIdempotencyKey = (event, context, eventKeyPath) => {
+const getHashedIdempotencyKey = (event, context, eventKeyPath, hashFunction) => {
   let hash
 
   if (eventKeyPath) {
-    hash = _generateHash(event[eventKeyPath])
+    const data = jmespath.search(event, eventKeyPath)
+    hash = _generateHash(data, hashFunction)
   } else {
-    hash = _generateHash(event)
+    hash = _generateHash(event, hashFunction)
   }
 
   return `${context.functionName}#${hash}`
 }
 
 // Generate a hash value from the provided data
-const _generateHash = (data) => {
-  return crypto.createHash('md5').update(JSON.stringify(data)).digest('base64')
+const _generateHash = (data, hashFunction) => {
+  return crypto.createHash(hashFunction).update(JSON.stringify(data)).digest('base64')
 }
 
 // Unix timestamp of expiry date for idempotency record

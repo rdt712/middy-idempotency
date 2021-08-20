@@ -22,7 +22,5 @@ demo
 .gitignore
 CONTRIBUTING.md
 tsconfig.json
-lib
-backend
 
 LICENSE

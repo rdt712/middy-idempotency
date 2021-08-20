@@ -10,14 +10,20 @@ const {
   IdempotencyValidationError
 } = require('./common/errors')
 
-const DynamoDb = require('./persistence/dynamodb')
-
+/*
+eventKeyJMESPath: str, optional
+  A jmespath expression to extract the idempotency key from the event record.
+  More info at https://github.com/jmespath/jmespath.js/
+expires_after_seconds: int, optional
+    The number of seconds to wait before a record is expired.
+hashFunction: str, optional
+    Function to use for calculating hashes, by default md5.
+*/
 const defaults = {
-  AwsClient: DynamoDb,
-  awsClientOptions: {},
-  tableName: null,
-  eventKeyPath: null,
-  expiresAfterSeconds: 3600 // 1 hour
+  PersistenceStore: undefined,
+  eventKeyJMESPath: undefined,
+  expiresAfterSeconds: 3600, // 1 hour
+  hashFunction: 'md5'
 }
 
 const idempotency = (opts = {}) => {
@@ -27,7 +33,12 @@ const idempotency = (opts = {}) => {
 
   // Delete the idempotency record from persistence store
   const _deleteIdempotencyRecord = async (event, context, error) => {
-    const idempotencyKey = getHashedIdempotencyKey(event, context, options.eventKeyPath)
+    const idempotencyKey = getHashedIdempotencyKey(
+      event,
+      context,
+      options.eventKeyJMESPath,
+      options.hashFunction
+    )
     await client.deleteRecord({ idempotencyKey })
   }
 
@@ -35,7 +46,12 @@ const idempotency = (opts = {}) => {
   const _getIdempotencyRecord = async (event, context) => {
     let record
     try {
-      const idempotencyKey = getHashedIdempotencyKey(event, context, options.eventKeyPath)
+      const idempotencyKey = getHashedIdempotencyKey(
+        event,
+        context,
+        options.eventKeyJMESPath,
+        options.hashFunction
+      )
       record = await client.getRecord(idempotencyKey)
     } catch (error) {
       if (error instanceof IdempotencyItemNotFoundError) {
@@ -70,7 +86,12 @@ const idempotency = (opts = {}) => {
   // Save record of function's execution being INPROGRESS
   const _saveInProgress = async (event, context) => {
     const record = {
-      idempotencyKey: getHashedIdempotencyKey(event, context, options.eventKeyPath),
+      idempotencyKey: getHashedIdempotencyKey(
+        event,
+        context,
+        options.eventKeyJMESPath,
+        options.hashFunction
+      ),
       status: INPROGRESS,
       expiryTimestamp: getExpiryTimestamp(options.expiresAfterSeconds)
     }
@@ -79,7 +100,12 @@ const idempotency = (opts = {}) => {
 
   const _saveSuccess = async (event, context, response) => {
     const record = {
-      idempotencyKey: getHashedIdempotencyKey(event, context, options.eventKeyPath),
+      idempotencyKey: getHashedIdempotencyKey(
+        event,
+        context,
+        options.eventKeyJMESPath,
+        options.hashFunction
+      ),
       status: COMPLETED,
       expiryTimestamp: getExpiryTimestamp(options.expiresAfterSeconds),
       data: JSON.stringify(response)
@@ -89,7 +115,10 @@ const idempotency = (opts = {}) => {
 
   const idempotencyBefore = async (request) => {
     if (!client) {
-      client = new options.AwsClient(options.tableName, { ...options.awsClientOptions })
+      if (options.PersistenceStore === undefined) {
+        throw new IdempotencyPersistenceLayerError('Persistence Store cannot be undefined')
+      }
+      client = options.PersistenceStore
     }
 
     try {

@@ -6,13 +6,20 @@ const {
 } = require('../common/errors')
 
 class DynamoDbPersistenceLayer {
-  constructor (tableName, options) {
+  constructor ({
+    tableName,
+    options = {},
+    keyAttr = 'id',
+    statusAttr = 'status',
+    expiryAttr = 'expiration',
+    dataAttr = 'data'
+  }) {
     this.client = new DynamoDb(options)
     this.tableName = tableName
-    this.keyAttr = 'id'
-    this.statusAttr = 'status'
-    this.expiryAttr = 'expiration'
-    this.dataAttr = 'data'
+    this.keyAttr = keyAttr
+    this.statusAttr = statusAttr
+    this.expiryAttr = expiryAttr
+    this.dataAttr = dataAttr
   }
 
   itemToRecord (item) {

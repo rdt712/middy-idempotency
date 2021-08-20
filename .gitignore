@@ -110,3 +110,5 @@ dist
 
 # OS
 .DS_Store
+
+demo/.aws-sam/
