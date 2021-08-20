@@ -15,6 +15,6 @@ Resources:
       CodeUri: HelloWorldFunction
       Handler: app.lambdaHandler
       Runtime: nodejs14.x
-  Environment:
-    Variables:
-      DYNAMO_IDEMPOTENCY_TABLE: idempotency
+      Environment:
+        Variables:
+          DYNAMO_IDEMPOTENCY_TABLE: idempotency

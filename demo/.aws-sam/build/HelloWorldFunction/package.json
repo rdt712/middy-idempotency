@@ -8,12 +8,10 @@
   "license": "MIT",
   "dependencies": {
     "@middy/core": ">=2.0.0",
-    "middy-idempotency": ">=0.0.1",
-    "aws-sdk": "^2.815.0"
+    "jmespath": "^0.15.0",
+    "middy-idempotency": "file:/Users/Ryan/workspace/middy-idempotency"
   },
-  "scripts": {
-
-  },
+  "scripts": {},
   "devDependencies": {
     "aws-sdk": "^2.815.0"
   }
