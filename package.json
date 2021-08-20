@@ -8,7 +8,8 @@
   },
   "engineStrict": true,
   "scripts": {
-    "lint": "standard --fix",
+    "lint": "standard",
+    "lintfix": "standard --fix",
     "prepare": "husky install",
     "test": "echo \"No test specified\""
   },

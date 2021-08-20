@@ -5,8 +5,8 @@ const processEvent = async (event, context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'hello world',
-    }),
+      message: 'hello world'
+    })
   }
 }
 
@@ -17,8 +17,8 @@ const lambdaHandler = middy(processEvent).use(
       endpoint: 'http://host.docker.internal:8000',
       region: 'localhost',
       accessKeyId: 'access_key_id',
-      secretAccessKey: 'secret_access_key',
-    },
+      secretAccessKey: 'secret_access_key'
+    }
   })
 )
 
