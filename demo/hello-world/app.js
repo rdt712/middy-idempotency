@@ -14,7 +14,7 @@ const processEvent = async (event, context) => {
 
 const dynamodb = new DynamoDbPersistenceLayer({
   tableName: process.env.DYNAMO_IDEMPOTENCY_TABLE,
-  options: {
+  config: {
     endpoint: 'http://host.docker.internal:8000',
     region: 'localhost',
     accessKeyId: 'access_key_id',

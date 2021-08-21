@@ -22,7 +22,7 @@ const _generateHash = (data, hashFunction) => {
 
 // Unix timestamp of expiry date for idempotency record
 const getExpiryTimestamp = (expiresAfterSeconds) => {
-  return Date.now() + expiresAfterSeconds
+  return Math.round(Date.now() / 1000) + expiresAfterSeconds
 }
 
 module.exports = {

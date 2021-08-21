@@ -27,6 +27,10 @@ Other sources to learn about idempotency:
 - [How do I make my Lambda function idempotent?](https://aws.amazon.com/premiumsupport/knowledge-center/lambda-function-idempotent/)
 - [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)
 
+Other idempotency projects for Middy:
+
+- [middy-idempotent](https://github.com/ibrahimcesar/middy-idempotent) - Uses ioredis and Upstash
+
 ## Install
 
 To install this middleware you can use NPM:
@@ -39,9 +43,14 @@ Requires @middy/core >= 2.0.0
 
 ## Usage
 
+**middy-idempotency** requires a persistence store to save the current status of an AWS Lambda execution. Currently, only
+DynamoDB is supported as a persistence store.
+
 ```javascript
 const middy = require('@middy/core')
 const idempotency = require('middy-idempotency')
+
+const DynamoDbPersistenceLayer = require('middy-idempotency/persistence/dynamodb')
 
 const processEvent = async (event, context) => {
   return {
@@ -52,20 +61,27 @@ const processEvent = async (event, context) => {
   }
 }
 
-const lambdaHandler = middy(processEvent).use(
-  idempotency({
-    tableName: process.env.DYNAMO_IDEMPOTENCY_TABLE,
-    awsClientOptions: {
-      endpoint: 'http://host.docker.internal:8000',
-      region: 'localhost',
-      accessKeyId: 'access_key_id',
-      secretAccessKey: 'secret_access_key',
-    },
-  })
-)
+const dynamodb = new DynamoDbPersistenceLayer({
+  tableName: 'myIdempotencyTable',
+})
+
+const lambdaHandler = middy(processEvent).use(idempotency({ PersistenceStore: dynamodb }))
 
 module.exports = { lambdaHandler }
 ```
+
+## TODO
+
+- [ ] Improve documentation
+- [ ] Add in-memory cache
+- [ ] Add payload validation
+- [ ] Add more advanced customization
+- [ ] Add other persistence stores (i.e. Redis)
+- [ ] Convert to TypeScript for type checking
+
+## Contributing
+
+Feel free to fork and make a PR for any enhancements or new features!
 
 ## MIT License
 

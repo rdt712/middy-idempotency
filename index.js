@@ -14,7 +14,7 @@ const {
 eventKeyJMESPath: str, optional
   A jmespath expression to extract the idempotency key from the event record.
   More info at https://github.com/jmespath/jmespath.js/
-expires_after_seconds: int, optional
+expiresAfterSeconds: int, optional
     The number of seconds to wait before a record is expired.
 hashFunction: str, optional
     Function to use for calculating hashes, by default md5.

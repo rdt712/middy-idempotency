@@ -8,13 +8,13 @@ const {
 class DynamoDbPersistenceLayer {
   constructor ({
     tableName,
-    options = {},
+    config = {},
     keyAttr = 'id',
     statusAttr = 'status',
     expiryAttr = 'expiration',
     dataAttr = 'data'
   }) {
-    this.client = new DynamoDb(options)
+    this.client = new DynamoDb(config)
     this.tableName = tableName
     this.keyAttr = keyAttr
     this.statusAttr = statusAttr
