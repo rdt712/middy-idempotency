@@ -1,6 +1,6 @@
 {
   "name": "middy-idempotency",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Idempotency Middleware for AWS Lambda Functions using Middy",
   "main": "index.js",
   "engines": {
